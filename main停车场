@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <sqlite3.h>
+#include <stdlib.h>
+
+int main()
+{
+    int n;
+    int rc;
+    int ID;
+    char *Car_name;
+    char *Car_owner_name;
+    char *Car_id;
+    char *Time;
+    sqlite3 *db = NULL;
+    char *sql;
+    char *errmsg;
+    
+    rc = sqlite3_open("Car_park",&db);
+    error(rc);
+
+    sql = "create table car_park_table(ID integer primary key,Car_name text,Car_owner_name text,Car_id text,Time text);";
+    rc == sqlite3_exec(db,sql,NULL,NULL,&errmsg);
+    error(rc);
+    
+    interface();
+
+    do
+    {
+        printf("\n请选择您需要的功能:");
+	scanf("%d",&n);
+	getchar();
+	while(n < 1||n > 6)
+	{
+	    printf("\n输入有误！请重新输入:");
+	    scanf("%d",&n);
+	}
+	switch(n)
+	{
+	    case 1:insert_car(db);
+	           break;
+
+            case 2:delete_car(db);
+	           break;
+
+            case 3:select_car(db);
+	           break;
+
+            case 4:print_car(db);
+	           break;
+
+            case 5:change_car(db);
+	           break;
+
+	}
+    }while(n != 6);
+
+    printf("   Goodbye!!!  \n ");
+    return 0;
+}
