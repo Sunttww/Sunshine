@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <sqlite3.h>
+#include <stdlib.h>
+
+void change_car(sqlite3 *db)
+{
+    int rc;
+    int I;
+    int PID;
+    char c;
+    char sql[100];
+    char *errmsg;
+
+    do
+    {
+        printf("\n    请输入您的车位：");
+	scanf("%d",&PID);
+
+        printf("\n    请输入您想更换的车位：");
+	scanf("%d",&I);
+
+	getchar();
+
+	sprintf(sql,"update car_park_table set ID = %d where ID = %d",I,PID);
+	rc = sqlite3_exec(db,sql,NULL,NULL,&errmsg);
+       // fprintf(stderr,"%s",errmsg);
+
+	if(rc != SQLITE_OK)
+	{
+	    printf("\n    此车位已经有车！\n");
+	    printf("\n    是否仍要更换车位？(y/n)");
+	}
+
+	else
+	{
+	    printf("\n    更换成功！\n");
+	    printf("\n    是否需要更换其他车辆?(y/n)");
+	}
+
+	scanf("%c",&c);
+
+    }while(c == 'y');
+    
+}
