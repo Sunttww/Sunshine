@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <sqlite3.h>
+#include <stdlib.h>
+
+void print_car(sqlite3 *db)
+{
+    int i;
+    int j;
+    int n;
+    int rc;
+    char *sql;
+    char **result = NULL;
+    int nrow;
+    int ncolumn;
+    char *errmsg;
+    sqlite3_stmt *stmt = NULL;
+    
+    rc = sqlite3_get_table(db,"select * from car_park_table",&result,&nrow,&ncolumn,&errmsg);
+    error(rc);
+
+    n = 0;
+    for(i = 0;i <= nrow;i++)
+    {
+        for(j = 0;j < ncolumn;j++)
+	{
+	    printf("%-20s",result[n]);
+	    n++;
+	}
+	printf("\n");
+    }
+    sqlite3_free_table(result);
+    /*rc = sqlite3_prepare(db,"select * from car_park_table",-1,&stmt,0);
+    error(rc);
+
+    rc = sqlite3_step(stmt);
+    ncolumn = sqlite3_column_count(stmt);
+
+    while(rc == SQLITE_ROW)
+    {
+        for(i = 0; i < ncolumn; i++)
+        {
+            printf("%s|",sqlite3_column_text(stmt,i));
+        }
+     
+        printf("\n");
+     
+        rc = sqlite3_step(stmt);
+    }*/
+
+}
