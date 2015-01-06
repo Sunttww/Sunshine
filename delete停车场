@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <sqlite3.h>
+#include <stdlib.h>
+
+void delete_car(sqlite3 *db)
+{
+    int n;
+    int rc;
+    char c;
+    char sql[100];
+    char *errmsg;
+
+    do
+    {
+        printf("\n    请出入要驶出汽车的车位：");
+	scanf("%d",&n);
+        getchar();
+
+	sprintf(sql,"delete from car_park_table where ID ==%d",n);
+	rc = sqlite3_exec(db,sql,NULL,NULL,&errmsg);
+
+	if(rc!=SQLITE_OK)
+	{
+	    printf("\nNO car park here!");
+	}
+        
+	else
+	{
+	    printf("\n    车辆驶出！是否继续驶出车辆？(y/n)");
+	    scanf("%c",&c);
+	}
+    }while(c == 'y');
+    
+}
