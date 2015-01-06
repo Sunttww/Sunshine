@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <sqlite3.h>
+#include <stdlib.h>
+
+void error(int rc)
+{
+    if(rc != SQLITE_OK)
+    {
+        printf("SQL ERROR!\n");
+	exit(1);
+    }
+}
