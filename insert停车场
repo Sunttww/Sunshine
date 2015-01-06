@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <sqlite3.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
+//int callback(void *para,int n_column,char **column_value,char **column_name)
+//{
+    /*int i;
+    for(i=0;i<n_column;i++)
+    {
+        printf("%s %s ",column_name[i],column_value[i]);
+    }
+    printf("\n");*/
+  //  return 0;
+//}
+
+void insert_car(sqlite3 *db)
+{
+    char c;
+    int rc;
+    int ID;
+    char Car_name[10];
+    char Car_owner_name[10];
+    char Car_id[10];
+    char Time[30];
+    //double Cost;
+    char sql[100];
+    char *errmsg;
+    time_t times;
+
+    do
+    {
+        printf("\n    请输入车名：");
+	scanf("%s",Car_name);
+
+	printf("\n    请输入车主的名字：");
+	scanf("%s",Car_owner_name);
+
+	printf("\n    请输入车牌号：");
+	scanf("%s",&Car_id);
+
+	printf("\n    请输入您想停靠的车位：");
+	scanf("%d",&ID);
+
+        getchar();
+
+//	sprintf(sql,"select *from car_park_table where ID = %d",ID);
+
+	time(&times);
+        strcpy(Time,ctime(&times));
+
+//        timep = select(db);
+//	Cost = difftime(times,timep);
+
+	sprintf(sql,"insert into car_park_table(ID,Car_name,Car_owner_name,Car_id,Time)values(%d,'%s','%s','%s','%s')",
+	                                        ID,Car_name,Car_owner_name,Car_id,Time);
+
+        rc = sqlite3_exec(db,sql,NULL,NULL,&errmsg);
+
+	if(rc!=SQLITE_OK)
+	{
+	    printf("\n    此车位有车！\n");
+
+	    printf("\n是否更换其余车位?(y/n)");
+	}
+
+        else
+	{
+            printf("\n停车成功！车辆是否继续驶入？（y/n）");
+	}
+
+	scanf("%c",&c);
+
+    }while(c == 'y');
+}
